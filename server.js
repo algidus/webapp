@@ -3,14 +3,11 @@ var http = require("http").Server(app);
 var io = require("socket.io")(http);
 
 
-//app.get('/', function (req, res){
-//  res.writeHead(200, {"Content-Type": "text/plain"});
-//  res.end("Welcome!\n");
-//});
-
-app.get('/', function(req, res){
-	res.sendFile(__dirname + '/index.html');
+app.get('/', function (req, res){
+  res.writeHead(200, {"Content-Type": "text/plain"});
+  res.end("Welcome to firstapp!\n");
 });
+
 
 io.on("connection", function (socket){
     socket.on("CHAT", function(data){
