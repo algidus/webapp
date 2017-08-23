@@ -16,7 +16,7 @@ httpserver.listen(port, ip, function(){
 
 io.on("connection", function (socket){
     socket.on("CHAT", function(data){
-        io.emit("CHAT", data.message);
+        io.emit("CHAT", {message: data.message});
     });
 });
 
