@@ -1,44 +1,30 @@
-<!doctype html>
-<html>
-  <head>
-    <title>Public chat</title>
-    <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      body { font: 13px Helvetica, Arial;}
-      form { background: rgba(0,0,0,0.2); margin:10px; padding: 20px; position: fixed; bottom: 0; width: 50%; }
-      form input { border: 0; padding: 10px; width: 90%; margin-right:.5%;}
-      form button { width: 9%; background: rgb(130, 224, 15); border: none; padding: 10px; }
-      #messages { list-style-type: none; margin: 0; padding: 0; }
-      #messages li { padding: 5px 10px; }
-      #messages li:nth-child(even) { background: white; }
-	   #messages li:nth-child(odd) { background: lime; }
-    </style>
-  </head>
-  
-  <body>
-  <div style='overflow-y:auto; height:550px; background-color:#abcabc; width:80%; margin:auto 135px;'>
-    <h1 style='text-align:center; color:#ededda; background-color:black;padding:10px;'>Group chat ~ Anonymously ;)</h1><br>  
-    <ul id="messages"></ul>
-  </div>
-    <ul id="messages"></ul>
-  <div style='width:800px; margin:auto 320px;'>
-    <form action="">
-      <input id="m" autocomplete="off" /><button style='cursor:pointer'>Send</button>
-    </form>
-<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
-<script>
-  var socket = io();
-  $('form').submit(function(){
-    socket.emit('chat message', $('#m').val());
-    $('#m').val('');
-    return false;
-  });
-  socket.on('chat message', function(msg){
-    $('#messages').append($('<li style="margin-bottom:10px; margin-left:10px; margin-right:10px;">').text(msg));
-  });
-</script>
-</div>
-  </body>
-  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Demo chat with socket - openshift</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+	<script src="socket.js"></script>
+	<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+</head>
+<body>
+	<form id="chat-form">
+		<input id="message" type="text" style="width: 500px; height: 50px; font-size: 20px; padding: 3px; color: blue">
+	</form>
+
+	<div id="message-list"></div>
+
+	<script>
+		var socket = io.connect("http://webchat-firstapp.a3c1.starter-us-west-1.openshiftapps.com/");
+		$("#chat-form").on("submit", function(e){
+			var message = $("#message").val();
+			$("#message").val("")
+			socket.emit("CHAT", {message: message});
+			return false;
+		});
+		socket.on("CHAT", function(data){
+			$("#message-list").prepend("<p>"+data.message+"</p>");
+		});
+	</script>
+</body>
 </html>
