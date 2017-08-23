@@ -1,22 +1,24 @@
 var app = require("express")();
-var http = require("http").Server(app);
-var io = require("socket.io")(http);
+var httpserver = require("http").createServer(app);
+var io = require("socket.io")(httpserver);
+
+var ip = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
+var port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
 
 app.get('/', function (req, res){
-  res.sendFile(__dirname + '/index.html');
   res.writeHead(200, {"Content-Type": "text/plain"});
-  res.end("Welcome to firstapp!\n");
+  res.end("Welcome to groupchat server!\n");
+});
+
+httpserver.listen(port, ip, function(){
+  res.end("Server is listening!");
 });
 
 io.on("connection", function (socket){
-    socket.on("CHAT", function(data){
-        io.emit("CHAT", {message: "leo: " + data.message});
+    socket.on("CHAT MESSAGE", function(msg){
+        io.emit("CHAT MESSAGE", msg);
     });
 });
 
-var port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
-var ip = process.env.OPENSHIFT_NODEJS_IP;
 
-http.listen(port, ip, function(){
-    console.log("demo start success!!!!!!!!!");
-});
+
