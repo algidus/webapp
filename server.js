@@ -10,7 +10,7 @@ app.get('/', function (req, res){
 
 io.on("connection", function (socket){
     socket.on("CHAT", function(data){
-        io.emit("CHAT", {message: data.message});
+        io.emit("CHAT", {message: "leo" + data.message});
     });
 });
 
