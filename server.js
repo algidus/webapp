@@ -5,7 +5,7 @@ var io = require("socket.io")(http);
 app.get('/', function (req, res){
   res.writeHead(200, {"Content-Type": "text/plain"});
   res.end("Welcome to firstapp!\n");
-
+});
 
 io.on("connection", function (socket){
     socket.on("CHAT", function(data){
@@ -18,4 +18,4 @@ var ip = process.env.OPENSHIFT_NODEJS_IP;
 
 http.listen(port, ip, function(){
     console.log("demo start success!!!!!!!!!");
-})
+});
