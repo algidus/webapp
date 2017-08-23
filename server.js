@@ -5,7 +5,7 @@ var io = require("socket.io")(http);
 
 app.get('/', function (req, res){
   res.writeHead(200, {"Content-Type": "text/plain"});
-  res.end("Hello! This is demo chat socket on openshift \n");
+  res.end("Hello! Welcome to socket demo! \n");
 });
 
 io.on("connection", function (socket){
